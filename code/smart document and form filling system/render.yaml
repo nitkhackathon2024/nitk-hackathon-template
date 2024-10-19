@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: flask-ocr-image
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /
+    runtime: python  # Specify the runtime environment
+    envVars:         # Specify your environment variables here
+      - key: PYTHON_VERSION
+        value: 3.11.2
