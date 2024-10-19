@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body.light-mode {
+            font-family: Calibri, Helvetica, sans-serif;
+            background-color: white;
+            color: black;
+        }
+        body.dark-mode {
+            font-family: Calibri, Helvetica, sans-serif;
+            background-color: #000000; /* Black background for dark mode */
+            color: white;
+        }
+        .container {
+            padding: 50px;
+            background-color: var(--form-bg);
+            max-width: 600px;
+            margin: 100px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            text-align: center;
+        }
+        input[type=text], input[type=password], input[type=file], textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+        input[type=text]:focus, input[type=password]:focus, input[type=file]:focus {
+            border-color: #66afe9;
+            outline: none;
+        }
+        label {
+            color: var(--label-color);
+        }
+        .registerbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+        }
+        .registerbtn:hover {
+            opacity: 0.9;
+        }
+        .line-gap {
+            margin-top: 20px;
+        }
+        /* Light mode variables */
+        body.light-mode {
+            --form-bg: lightblue;
+            --input-bg: #f1f1f1;
+            --input-text: black;
+            --label-color: black;
+        }
+        /* Dark mode variables */
+        body.dark-mode {
+            --form-bg: grey;
+            --input-bg: #333333;
+            --input-text: white;
+            --label-color: white;
+        }
+        /* Mode switch toggle */
+        .mode-switch {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Align to the right */
+            margin-bottom: 20px;
+        }
+        .mode-switch input[type="checkbox"] {
+            display: none;
+        }
+        .mode-switch label {
+            cursor: pointer;
+            width: 50px;
+            height: 25px;
+            background-color: #ccc;
+            border-radius: 25px;
+            position: relative;
+            transition: background-color 0.3s;
+            margin-left: 10px; /* Space between text and switch */
+        }
+        .mode-switch label:after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 19px;
+            height: 19px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        .mode-switch input[type="checkbox"]:checked + label {
+            background-color: #4CAF50;
+        }
+        .mode-switch input[type="checkbox"]:checked + label:after {
+            transform: translateX(25px);
+        }
+        .mode-text {
+            color: #4CAF50; /* Color for mode text */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="light-mode"> <!-- Default mode is light -->
+<div class="container">
+    <div class="mode-switch">
+        <span class="mode-text" id="mode-text">Light Mode</span>
+        <input type="checkbox" id="mode-toggle">
+        <label for="mode-toggle"></label>
+    </div>
+
+    <h1>Registration Form</h1>
+    
+    <form id="registration-form">
+        <label for="image">Upload Image (for OCR):</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+        
+        <button type="button" id="upload-btn" class="registerbtn">Upload and Fill Form</button>
+
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" placeholder="First Name" required>
+        
+        <label for="middlename">Middle Name:</label>
+        <input type="text" id="middlename" name="middlename" placeholder="Middle Name" required>
+
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" placeholder="Last Name" required>
+
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="Male" checked> 
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="Female"> 
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" value="Other"> 
+        <label for="other">Other</label>
+
+        <div class="line-gap"></div>
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone" placeholder="Phone number" required>
+
+        <label for="address">Current Address:</label>
+        <textarea id="address" name="address" placeholder="Current Address" required></textarea>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" placeholder="Enter Email" required>
+
+        <label for="psw">Password:</label>
+        <input type="password" id="psw" name="psw" placeholder="Enter Password" required>
+
+        <label for="psw-repeat">Re-type Password:</label>
+        <input type="password" id="psw-repeat" name="psw-repeat" placeholder="Retype Password" required>
+
+        <button type="submit" class="registerbtn">Register</button>  
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Dark/Light mode toggle
+    $('#mode-toggle').on('change', function() {
+        $('body').toggleClass('dark-mode light-mode');
+        var modeText = $(this).is(':checked') ? 'Light Mode' : 'Dark Mode';
+        $('#mode-text').text(modeText);
+    });
+
+    // When the upload button is clicked
+    $('#upload-btn').on('click', function() {
+        var formData = new FormData();
+        formData.append('image', $('#image')[0].files[0]);
+
+        $.ajax({
+            url: '/upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.data) {
+                    // Automatically fill fields with OCR data
+                    $('#firstname').val(response.data.firstname || '');
+                    $('#middlename').val(response.data.middlename || '');
+                    $('#lastname').val(response.data.lastname || '');
+                    $('#phone').val(response.data.phone || '');
+                    $('#address').val(response.data.address || '');
+                    $('#email').val(response.data.email || '');
+                } else {
+                    alert(response.error);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred: ' + error);
+            }
+        });
+    });
+
+    $('#registration-form').on('submit', function(e) {
+        e.preventDefault();
+        // Handle form submission logic here if necessary
+    });
+});
+</script>
+</body>
+</html>
